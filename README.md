@@ -142,10 +142,15 @@ curl -X POST http://localhost:3001/api/payments/1/confirm
 # Ver estado de submódulos
 git submodule status
 
-# Actualizar submódulo a la versión más reciente
+# Actualizar submódulo a la versión más reciente (método manual)
 cd payment-gateway
-git pull origin master
+git pull origin main
 cd ..
+git add payment-gateway
+git commit -m "Update payment-gateway to latest version"
+
+# Actualizar submódulo a la versión más reciente (método directo)
+git submodule update --remote payment-gateway
 git add payment-gateway
 git commit -m "Update payment-gateway to latest version"
 
