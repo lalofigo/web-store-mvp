@@ -5,9 +5,9 @@ Este proyecto es un MVP (Minimum Viable Product) que demuestra la integración e
 ## Arquitectura
 
 ```
-mvp-github-submodules/
-├── web-store/                 (Repositorio principal - Next.js)
-│   ├── payment-gateway/       (Submódulo Git - Node.js/Express)
+Repositorios GitHub:
+├── web-store-mvp/             (https://github.com/lalofigo/web-store-mvp)
+│   ├── payment-gateway/       (Submódulo → payment-gateway-mvp)
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── api/checkout/  (API que comunica con el gateway)
@@ -16,7 +16,7 @@ mvp-github-submodules/
 │   │   │   └── page.tsx       (Homepage con carrito)
 │   │   └── ...
 │   └── ...
-└── payment-gateway/           (Repositorio independiente)
+└── payment-gateway-mvp/       (https://github.com/lalofigo/payment-gateway-mvp)
     ├── server.js              (API REST del gateway)
     └── ...
 ```
@@ -39,8 +39,8 @@ mvp-github-submodules/
 
 ```bash
 # Clonar el repositorio principal
-git clone <url-del-repo-web-store> web-store
-cd web-store
+git clone https://github.com/lalofigo/web-store-mvp.git
+cd web-store-mvp
 
 # Inicializar y actualizar submódulos
 git submodule init
@@ -49,8 +49,8 @@ git submodule update
 
 **O clonar directamente con submódulos:**
 ```bash
-git clone --recurse-submodules <url-del-repo-web-store> web-store
-cd web-store
+git clone --recurse-submodules https://github.com/lalofigo/web-store-mvp.git
+cd web-store-mvp
 ```
 
 ### 2. Levantar Payment Gateway (Terminal 1)
@@ -71,7 +71,7 @@ El gateway estará disponible en: `http://localhost:3001`
 ### 3. Levantar Web Store (Terminal 2)
 
 ```bash
-# Desde el directorio principal de web-store
+# Desde el directorio principal de web-store-mvp
 npm install
 
 # Ejecutar la tienda web
