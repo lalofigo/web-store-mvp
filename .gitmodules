@@ -1,3 +1,0 @@
-[submodule "payment-gateway"]
-	path = payment-gateway
-	url = ../payment-gateway
