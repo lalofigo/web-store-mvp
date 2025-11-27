@@ -5,7 +5,7 @@ const PAYMENT_GATEWAY_URL = process.env.PAYMENT_GATEWAY_URL || 'http://localhost
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { amount, currency = 'USD', description, customer } = body;
+    const { amount, currency = 'USD', description, customer, paymentMethod, billingAddress, items } = body;
 
     if (!amount || amount <= 0) {
       return NextResponse.json(
@@ -21,6 +21,32 @@ export async function POST(request: Request) {
       );
     }
 
+    // Validaciones básicas de tarjeta de crédito (simuladas)
+    if (paymentMethod) {
+      const { cardNumber, expiryDate, cvv, cardHolderName } = paymentMethod;
+      
+      if (!cardNumber || cardNumber.length < 13) {
+        return NextResponse.json(
+          { error: 'Invalid card', message: 'Card number is invalid' },
+          { status: 400 }
+        );
+      }
+
+      if (!cvv || cvv.length < 3) {
+        return NextResponse.json(
+          { error: 'Invalid CVV', message: 'CVV is required' },
+          { status: 400 }
+        );
+      }
+
+      if (!cardHolderName) {
+        return NextResponse.json(
+          { error: 'Invalid cardholder', message: 'Cardholder name is required' },
+          { status: 400 }
+        );
+      }
+    }
+
     // Paso 1: Crear el pago en el gateway
     console.log('Creating payment in gateway...', { amount, currency, description, customer });
     
@@ -34,6 +60,14 @@ export async function POST(request: Request) {
         currency,
         description,
         customer,
+        paymentMethod: paymentMethod ? {
+          type: 'credit_card',
+          originalCardNumber: paymentMethod.cardNumber, // Solo para simulación del banco
+          cardHolderName: paymentMethod.cardHolderName,
+          last4: paymentMethod.cardNumber.slice(-4)
+        } : undefined,
+        billingAddress,
+        items,
       }),
     });
 

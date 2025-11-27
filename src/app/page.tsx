@@ -32,40 +32,11 @@ export default function Home() {
   const handleCheckout = async () => {
     if (cart.length === 0) return;
 
-    setIsCheckingOut(true);
+    // Guardar carrito en localStorage para pasarlo al checkout
+    localStorage.setItem('checkoutCart', JSON.stringify(cart));
     
-    try {
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amount: total,
-          currency: 'USD',
-          description: `Compra de ${cart.length} productos`,
-          customer: {
-            name: 'Cliente Demo',
-            email: 'demo@example.com',
-          },
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        // Redirigir a página de éxito
-        window.location.href = result.redirect_url;
-      } else {
-        // Redirigir a página de fallo
-        window.location.href = result.redirect_url;
-      }
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      alert('Error procesando el pago. Inténtalo nuevamente.');
-    } finally {
-      setIsCheckingOut(false);
-    }
+    // Redirigir a la página de checkout
+    window.location.href = '/checkout';
   };
 
   return (

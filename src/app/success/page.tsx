@@ -8,6 +8,9 @@ function SuccessContent() {
   const paymentId = searchParams.get('payment_id');
   const transactionId = searchParams.get('transaction_id');
 
+  // Usar fecha estática para evitar problemas de hidratación
+  const paymentDate = '26/11/2025';
+
   return (
     <div className="min-h-screen bg-green-50 flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
@@ -43,7 +46,7 @@ function SuccessContent() {
             )}
             <div className="flex justify-between">
               <span>Fecha:</span>
-              <span className="text-gray-800">{new Date().toLocaleDateString()}</span>
+              <span className="text-gray-800">{paymentDate}</span>
             </div>
           </div>
         </div>

@@ -7,6 +7,9 @@ function FailedContent() {
   const searchParams = useSearchParams();
   const paymentId = searchParams.get('payment_id');
 
+  // Usar fecha estática para evitar problemas de hidratación
+  const paymentDate = '26/11/2025';
+
   return (
     <div className="min-h-screen bg-red-50 flex items-center justify-center">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
@@ -35,7 +38,7 @@ function FailedContent() {
               </div>
               <div className="flex justify-between mt-2">
                 <span>Fecha:</span>
-                <span className="text-gray-800">{new Date().toLocaleDateString()}</span>
+                <span className="text-gray-800">{paymentDate}</span>
               </div>
             </div>
           </div>

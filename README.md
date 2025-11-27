@@ -11,6 +11,7 @@ Repositorios GitHub:
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── api/checkout/  (API que comunica con el gateway)
+│   │   │   ├── checkout/      (Formulario de pago con datos de tarjeta)
 │   │   │   ├── success/       (Página de pago exitoso)
 │   │   │   ├── failed/        (Página de pago fallido)
 │   │   │   └── page.tsx       (Homepage con carrito)
@@ -21,13 +22,22 @@ Repositorios GitHub:
     └── ...
 ```
 
+Para agregar el payment-gateway como submódulo, se utiliza el siguiente comando:
+
+```bash
+git submodule add https://github.com/lalofigo/payment-gateway-mvp.git payment-gateway
+
+Explicación del comando:
+- `git submodule add`: Comando para agregar un submódulo a un repositorio Git.
+
 ## Flujo de Pago
 
 1. 🛒 **Cliente interactúa** con la UI de Next.js (agrega productos al carrito)
-2. 💳 **Next.js llama** a `/api/checkout` internamente
-3. 🔗 **API checkout** se comunica con el gateway para crear y confirmar el pago
-4. 🏦 **Gateway simula** la interacción con el banco (70% éxito, 30% fallo)
-5. ✅/❌ **Web Store muestra** `/success` o `/failed` según el resultado
+2. 💳 **Cliente hace clic** en "Proceder al pago" → Redirige a `/checkout`
+3. 📝 **Formulario de checkout** - Cliente ingresa datos de tarjeta de crédito
+4. 🔗 **API `/api/checkout`** valida datos y se comunica con el gateway
+5. 🏦 **Gateway simula** validación bancaria con tarjetas específicas de prueba
+6. ✅/❌ **Web Store muestra** `/success` o `/failed` según el resultado
 
 ## Instalación y Ejecución
 
@@ -85,8 +95,12 @@ La tienda estará disponible en: `http://localhost:3000`
 1. **Abrir** `http://localhost:3000` en tu navegador
 2. **Agregar productos** al carrito haciendo click en "Agregar al carrito"
 3. **Hacer click** en "Proceder al pago" cuando tengas productos en el carrito
-4. **Esperar** a que el sistema procese el pago (1-3 segundos)
-5. **Ver el resultado** - serás redirigido a `/success` o `/failed`
+4. **Completar formulario** de checkout con:
+   - Datos de tarjeta de crédito (usa tarjetas de prueba)
+   - Nombre del tarjetahabiente
+   - Email y dirección de facturación
+5. **Hacer click** en "Pagar" y esperar procesamiento (1-3 segundos)
+6. **Ver el resultado** - serás redirigido a `/success` o `/failed`
 
 ## API del Payment Gateway
 
@@ -157,11 +171,27 @@ git commit -m "Use payment-gateway v1.2.0"
 ## Simulación Bancaria
 
 El payment gateway simula respuestas bancarias con:
-- **70% de éxito** (`succeeded`)  
-- **30% de fallo** (`failed`)
+- **70% de éxito** (`succeeded`) para tarjetas normales
+- **30% de fallo** (`failed`) para tarjetas normales  
 - **Delay de 1-3 segundos** para simular procesamiento real
+- **Tarjetas específicas** para diferentes escenarios de prueba
 
-## Troubleshooting
+### 💳 Tarjetas de Prueba
+
+Usa estos números de tarjeta para probar diferentes escenarios:
+
+| Número de Tarjeta | Resultado | Descripción |
+|-------------------|-----------|-------------|
+| `4242424242424242` | ✅ Éxito | Pago exitoso (simulación normal) |
+| `4000000000000002` | ❌ Rechazo | Pago rechazado (siempre) |
+| `4000000000000101` | ❌ Rechazo | Fondos insuficientes |
+| `4000000000000119` | ❌ Rechazo | Error de procesamiento |
+| Cualquier otra | 🎲 Aleatorio | 70% éxito, 30% fallo |
+
+**Otros campos:**
+- **CVV**: Cualquier 3-4 dígitos
+- **Fecha de expiración**: Cualquier fecha futura (MM/AA)
+- **Nombre**: Cualquier nombre## Troubleshooting
 
 ### Payment Gateway no responde
 - Verificar que esté corriendo en `http://localhost:3001`
@@ -179,4 +209,4 @@ git submodule update --remote payment-gateway
 
 ---
 
-**🎯 ¡Tu MVP está listo!** Ahora tienes una tienda web completamente funcional con su propia pasarela de pagos como submódulo Git.
+
