@@ -334,13 +334,10 @@ export default function CheckoutPage() {
             </div>
 
             <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <h3 className="font-medium text-blue-800 mb-2">🔒 Pago Seguro</h3>
-              <p className="text-sm text-blue-600 mb-3">
-                Este es un entorno de prueba. Los datos de tu tarjeta son simulados y no se procesan realmente.
-              </p>
+              <h3 className="font-medium text-blue-800 mb-2"> Pago Seguro</h3>
               
               <div className="text-sm">
-                <h4 className="font-medium text-blue-800 mb-2">💳 Tarjetas de Prueba:</h4>
+                <h4 className="font-medium text-blue-800 mb-2"> Tarjetas de Prueba:</h4>
                 <ul className="space-y-1 text-blue-600">
                   <li><strong>4242424242424242</strong> - Pago exitoso (normal)</li>
                   <li><strong>4000000000000002</strong> - Pago rechazado (siempre)</li>
